@@ -5,6 +5,7 @@ module Scenes
     # ゲーム本編シーンの担当ディレクタークラス
     class Director < DirectorBase
       FPS = 30 # フレームレート（1秒間に何回画面を更新するか）の定義
+      LETTERS = ('A'..'Z').to_a # A~Zの文字を格納する配列
 
       # コンストラクタ
       def initialize
@@ -17,7 +18,6 @@ module Scenes
         @score = 0                                             # 総得点
         @cleared = false                                       # 3回duelしたか否かを保持するフラグ
         @drag_start_pos = nil                                  # マウスドラッグ用フラグ兼ドラッグ開始位置記憶用変数 
-        @rectangles = []
         @images = []                                      # 長方形を保持する配列
 
         # カードをドローする処理
@@ -55,7 +55,7 @@ module Scenes
         # スコアを表示
         draw_text("SCORE: #{@score}", :right, 5, font: :score, color: :white)
 
-        # 長方形を表示
+        # 画像を表示
         @images.each do |image|
           @sample_img.draw(image[:x], image[:y], 0, image[:scale_x], image[:scale_y])
         end
@@ -77,7 +77,9 @@ module Scenes
             y: 420,                             # 固定のY位置
             scale_x: img_width / @sample_img.width.to_f,
             scale_y: img_height / @sample_img.height.to_f,
-            index: i + 1
+            index: i + 1,
+            value: rand(1000..2000),
+            letter: LETTERS.sample
           }
         end
       end
